@@ -1,0 +1,21 @@
+<p id="notice"><%= notice %></p>
+
+<h1>サンプル集</h1>
+
+<div class="list-group">
+  <% @categories.each do |category| %>
+    <h3><%= category %></h3>
+    <% @samples.each do |sample| %>
+      <% if category == sample.category %>
+    	<a class="list-group-item" href="<%= sample.url %>" target="_black">
+    		<h4 class="list-group-item-heading"><%= sample.name %></h4>
+    		<p class="list-group-item-text"><%= sample.description %></p>
+    	</a>
+    	<% end %>
+  	<% end %>
+  <% end %>
+</div>
+
+<br>
+
+<%= link_to 'New Sample', new_sample_path %>

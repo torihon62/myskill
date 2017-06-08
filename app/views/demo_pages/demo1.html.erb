@@ -1,2 +1,96 @@
-<h1>DemoPages#demo1</h1>
-<p>Find me in app/views/demo_pages/demo1.html.erb</p>
+<h3>Google Map APIを使ったアプリケーション</h3>
+<div class="row">
+    <div class="col-md-3">
+        <div class="ui-area">
+            <h4>マーカーの緯度経度</h4>
+            <label for="lat">緯度</label>
+            <input id="lat" type="text" value="35.681" onchange="refreshMap();" />
+            <label for="lng">経度</label>
+            <input id="lng" type="text" value="139.767" onchange="refreshMap();" />
+            <hr />
+    
+            <h4>現在地の表示</h4>
+            <button onclick="setCurrentPosition();" class="btn btn-primary">マップの中心を現在地に移動させる</button>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div id="map" style="height:400px;">
+    </div>
+</div>
+    
+</div>
+
+<script async defer
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCqIK64BjWyaxMmsQZQnMizK3_tl9YYbyU&callback=initMap">
+</script>
+<script>
+    var map = null;
+    var marker = null;
+    var currentPositionMarker = null;
+    var infoWindow = null;
+    
+    function setCurrentPosition() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(success, error);
+        } else {
+            handleLocationError(false, infoWindow, map.getCenter());
+        }
+        
+        function success(position) {
+            var pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+            
+            if(infoWindow) {
+                infoWindow.setMap(null);
+                infoWindow = null;
+            }
+            infoWindow = new google.maps.InfoWindow({map: map});
+            infoWindow.setPosition(pos);
+            infoWindow.setContent('Location found.');
+            map.setCenter(pos);            
+        }
+        
+        function error(err) {
+            handleLocationError(true, infoWindow, map.getCenter());
+        }
+        
+        function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+            infoWindow.setPosition(pos);
+            infoWindow.setContent(browserHasGeolocation ?
+                                  'Error: The Geolocation service failed.' :
+                                  'Error: Your browser doesn\'t support geolocation.');
+        }
+            
+    }
+    
+    function refreshMap() {
+        var lat = parseFloat($("#lat").val());
+        var lng = parseFloat($("#lng").val());
+        
+        marker.setPosition({lat: lat, lng: lng});
+    }
+    function initMap() {
+        
+        var lat = parseFloat($("#lat").val());
+        var lng = parseFloat($("#lng").val());
+        
+        var tokyo = {lat: lat, lng: lng};
+        
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 4,
+            center: tokyo
+        });
+        marker = new google.maps.Marker({
+            position: tokyo,
+            map: map,
+            draggable: true
+        });
+        marker.addListener('drag', function() {
+            var latlng = marker.getPosition();
+            $("#lat").val(latlng.lat());
+            $("#lng").val(latlng.lng());
+        });
+    }
+</script>

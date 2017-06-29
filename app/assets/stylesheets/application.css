@@ -14,6 +14,14 @@
  *= require_self
  */
 
+body {
+    margin: 0px;
+}
+header {
+    background-image: url(/images/jumbotron.jpg);
+    background-size: cover;
+    color: white !important;
+}
 footer {
     position: fixed;
     bottom: 0;
@@ -21,8 +29,8 @@ footer {
     width: 100%;
     color: white;
     background-color: gray;
-    margin-left: -33px;
 }
+
 
 footer p {
     margin: 10px;

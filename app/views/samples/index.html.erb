@@ -1,21 +1,27 @@
 <p id="notice"><%= notice %></p>
 
-<h1>サンプル集</h1>
+<header class="jumbotron">
+　<div class="container">
+　　<h1>Samples</h1>
+　</div> <!-- /container -->    
+</header>
 
-<div class="list-group">
-  <% @categories.each do |category| %>
-    <h3><%= category %></h3>
-    <% @samples.each do |sample| %>
-      <% if category == sample.category %>
-    	<a class="list-group-item" href="<%= sample.url %>" target="_black">
-    		<h4 class="list-group-item-heading"><%= sample.name %></h4>
-    		<small><%= sample.description %></small>
-    	</a>
+<div class="container">
+  <div class="list-group">
+    <% @categories.each do |category| %>
+      <h3><%= category %></h3>
+      <% @samples.each do |sample| %>
+        <% if category == sample.category %>
+      	<a class="list-group-item" href="<%= sample.url %>" target="_black">
+      		<h4 class="list-group-item-heading"><%= sample.name %></h4>
+      		<small><%= sample.description %></small>
+      	</a>
+      	<% end %>
     	<% end %>
-  	<% end %>
-  <% end %>
+    <% end %>
+  </div>
+  
+  <br>
+  
+  <%= link_to 'New Sample', new_sample_path %>
 </div>
-
-<br>
-
-<%= link_to 'New Sample', new_sample_path %>

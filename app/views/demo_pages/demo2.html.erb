@@ -1,0 +1,207 @@
+<div class="container">
+    <h3>グラフアプリケーション</h3>
+    <div class="row">
+        <div class="col-md-3">
+            <ul class="nav nav-pills nav-stacked">
+                <!--<li class="active"><a href="#">Chart.js</a></li>-->
+                <li id="chartjs"><a href="" onclick="drawChartJs(); return false;">Chart.js</a></li>
+                <li id="googlechart"><a href="" onclick="drawGoogleChart(); return false;">Google Chart API</a></li>
+                <li id="canvasjs"><a href="" onclick="drawCanvasJs(); return false;">Canvas.js</a></li>
+            </ul>
+        </div>
+        <div class="col-md-9" style="margin-bottom:50px;">
+            <h4>公式URL</h4>
+            <div><a id="url" href="" target="_blank"></a></div>
+            <hr />
+            
+            <h4>折れ線グラフ</h4>
+            <div id="line_chart_div"></div>
+            <div id="container_canvas_line" style="width:100%">
+                <canvas id="line_chart_canvas"></canvas>
+            </div>
+            
+            <h4>棒グラフ</h4>
+            <div id="bar_chart_div"></div>
+            <div id="container_canvas_bar" style="width:100%">
+                <canvas id="bar_chart_canvas"></canvas>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+<!-- Global -->
+<script>
+    var data_x = ["1月","2月","3月","4月","5月","6月","7月"];
+    var bardata_y = [35, 40, 60, 71, 96, 75, 50];
+    var linedata_y = [65, 59, 80, 81, 56, 55, 40];
+    
+    function initDisplay() {
+        // グラフ描画スペースのクリア
+        $("#line_chart_div").html("");
+        $("#container_canvas_line").html('<canvas id="line_chart_canvas"></canvas>');
+        $("#bar_chart_div").html("");
+        $("#container_canvas_bar").html('<canvas id="bar_chart_canvas"></canvas>');
+        
+        // サイドバーのクリア
+        $("#chartjs").attr("class", "");
+        $("#googlechart").attr("class", "");
+        $("#canvasjs").attr("class", "");
+    }
+
+    $(function() {
+        drawChartJs(); 
+    });
+</script>
+
+
+
+<!-- Chart.js -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.bundle.min.js"></script>
+<script>
+    function drawChartJs() {
+        initDisplay();
+        
+        // サイドバーのアクティブ化
+        $("#chartjs").attr("class", "active");
+        
+        // URLの挿入
+        var url = "http://www.chartjs.org/";
+        $("#url").attr("href", url);
+        $("#url").html(url);
+        
+        // データの作成
+        var elem_line = document.getElementById("line_chart_canvas").getContext("2d");
+        var elem_bar = document.getElementById("bar_chart_canvas").getContext("2d");
+        
+        // 折れ線グラフ
+        var data_line = {
+            type: 'line',
+            data: {
+                labels: data_x, //x軸
+                datasets: [
+                    {
+                        label: "sample_line_chart",
+                        data: linedata_y  //y軸
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+            }
+        }
+        
+        // 棒グラフ
+        var data_bar = {
+            type: 'bar',
+            data: {
+                labels: data_x, //x軸
+                datasets: [
+                    {
+                        label: "sample_bar_chart",
+                        data: bardata_y  //y軸
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+            }
+        };
+        var myLineChart = new Chart(elem_line, data_line);
+        var myBarChart = new Chart(elem_bar, data_bar);
+    }
+</script>
+
+<!-- Google Chart API -->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script>
+    google.charts.load('current', {'packages':['corechart','line','bar']});
+</script>
+<script>
+    function drawGoogleChart() {
+        initDisplay();
+        
+        // サイドバーのアクティブ化
+        $("#googlechart").attr("class", "active");
+        
+        // URLの挿入
+        var url = "https://developers.google.com/chart/";
+        $("#url").attr("href", url);
+        $("#url").html(url);
+        
+        var data_line = new google.visualization.DataTable();
+        data_line.addColumn("string", "month");
+        data_line.addColumn("number", "data");
+        
+        data_line.addRows([
+            [data_x[0],  linedata_y[0]],
+            [data_x[1],  linedata_y[1]],
+            [data_x[2],  linedata_y[2]],
+            [data_x[3],  linedata_y[3]],
+            [data_x[4],  linedata_y[4]],
+            [data_x[5],  linedata_y[5]],
+            [data_x[6],  linedata_y[6]]
+        ]);
+
+        var data_bar = new google.visualization.DataTable();
+        data_bar.addColumn("string", "month");
+        data_bar.addColumn("number", "data");
+        
+        data_bar.addRows([
+            [data_x[0],  bardata_y[0]],
+            [data_x[1],  bardata_y[1]],
+            [data_x[2],  bardata_y[2]],
+            [data_x[3],  bardata_y[3]],
+            [data_x[4],  bardata_y[4]],
+            [data_x[5],  bardata_y[5]],
+            [data_x[6],  bardata_y[6]]
+        ]);
+        var options = {
+            width: "100%",
+            height: 400
+        };
+        var chart_line = new google.charts.Line(document.getElementById('line_chart_div'));
+        var chart_bar = new google.charts.Bar(document.getElementById('bar_chart_div'));
+        chart_line.draw(data_line, google.charts.Line.convertOptions(options));
+        chart_bar.draw(data_bar, google.charts.Bar.convertOptions(options));
+        
+    }
+</script>
+
+<!-- canvas.js -->
+<!-- vendor/assetに配置し、アセットパイプラインでインポート -->
+<script>
+    function drawCanvasJs() {
+        initDisplay();
+        
+        // サイドバーのアクティブ化
+        $("#canvasjs").attr("class", "active");
+        
+        // URLの挿入
+        var url = "http://canvasjs.com/";
+        $("#url").attr("href", url);
+        $("#url").html(url);
+        
+    	var chart = new CanvasJS.Chart("bar_chart_div", {
+    		theme: "theme2",//theme1
+    		title:{
+    			text: "Basic Column Chart - CanvasJS"              
+    		},
+    		animationEnabled: false,   // change to true
+    		data: [              
+    		{
+    			// Change type to "bar", "area", "spline", "pie",etc.
+    			type: "column",
+    			dataPoints: [
+    				{ label: "apple",  y: 10  },
+    				{ label: "orange", y: 15  },
+    				{ label: "banana", y: 25  },
+    				{ label: "mango",  y: 30  },
+    				{ label: "grape",  y: 28  }
+    			]
+    		}
+    		]
+    	});
+    	chart.render();
+    }
+</script>

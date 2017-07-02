@@ -12,7 +12,10 @@
  *
  *= require_tree .
  *= require_self
+ *= require flexslider/flexslider.css
  */
+
+/* Global */
 
 body {
     margin: 0px;
@@ -22,6 +25,15 @@ header {
     background-size: cover;
     color: white !important;
 }
+
+.jumbotron {
+    margin-top: -50px;
+}
+
+.container {
+    margin-bottom: 50px;   
+}
+
 footer {
     position: fixed;
     bottom: 0;
@@ -54,4 +66,13 @@ footer p {
 
 .ui-area {
     margin-bottom: 50px;
+}
+
+/* flexslider */
+.flex-direction-nav a {
+    padding: 10px;
+}
+
+.flex-direction-nav a:hover {
+    background-color: rgba(0,0,0,0);
 }

@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   devise_for :users
   get 'demo_pages/demo1'
   get 'demo_pages/demo2'
+  get 'demo_pages/demo3'
 
   resources :samples
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

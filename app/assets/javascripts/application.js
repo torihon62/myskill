@@ -15,3 +15,4 @@
 //= require turbolinks
 //= require_tree .
 //= require canvasjs/canvasjs.min.js
+//= require flexslider/jquery.flexslider-min.js

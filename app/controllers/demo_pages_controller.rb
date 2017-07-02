@@ -4,4 +4,7 @@ class DemoPagesController < ApplicationController
 
   def demo2
   end
+  
+  def demo3
+  end
 end
